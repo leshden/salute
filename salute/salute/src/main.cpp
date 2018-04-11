@@ -1,16 +1,13 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
 #include "shader.h"
-
 #include <iostream>
+#include <chrono>
+#include "constants.h"
+#include "background.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
-
-// settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
 
 int main()
 {
@@ -45,8 +42,12 @@ int main()
 		return -1;
 	}
 
+	//create background
+	Background background;
+
 	// build and compile our shader program
 	// ------------------------------------
+	Shader testShader("D:\\saluteproject\\salute\\salute\\src\\shaders\\clouds.vs", "D:\\saluteproject\\salute\\salute\\src\\shaders\\clouds.fs");
 	Shader ourShader("D:\\saluteproject\\salute\\salute\\src\\shaders\\shader.vs", "D:\\saluteproject\\salute\\salute\\src\\shaders\\shader.fs"); // you can name your shader files however you like
 
 														// set up vertex data (and buffer(s)) and configure vertex attributes
@@ -79,10 +80,18 @@ int main()
 	// glBindVertexArray(0);
 
 
+	//delta time
+	std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+
 	// render loop
 	// -----------
+	double ff = 0.0;
 	while (!glfwWindowShouldClose(window))
 	{
+		std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double> dt = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+		
+		t1 = t2;
 		// input
 		// -----
 		processInput(window);
@@ -92,10 +101,21 @@ int main()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		background.draw();
+
 		// render the triangle
 		ourShader.use();
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		//testShader.use();
+		//testShader.setFloat("time", (float)ff);
+		//testShader.set2Float("resolution", 800, 600);
+		//ff+=0.02;
+		
+		//std::cout << dt.count() << std::endl;
+	/*	glBindVertexArray(VAO);
+		glDrawArrays(GL_TRIANGLES, 0, 3);*/
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------

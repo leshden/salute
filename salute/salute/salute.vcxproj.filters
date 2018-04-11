@@ -21,9 +21,18 @@
     <ClCompile Include="src\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\background.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\shader.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\background.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\constants.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,6 +41,18 @@
       <Filter>Source Files</Filter>
     </None>
     <None Include="src\shaders\shader.vs">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="src\shaders\testshader.fs">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="src\shaders\testshader.vs">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="src\shaders\clouds.fs">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="src\shaders\clouds.vs">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
