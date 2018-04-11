@@ -1,6 +1,9 @@
 #include "background.h"
 #include "shader.h"
 #include "constants.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 const double DELTA = 0.02;
 
@@ -23,9 +26,19 @@ Background::~Background()
 
 void Background::draw()
 {
+
+	// create transformations
+	//glm::mat4 transform;
+	//transform = glm::translate(transform, glm::vec3(0.5f, -1.0f, 0.0f));
+	//transform = glm::rotate(transform, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	//transform = glm::scale(transform, glm::vec3(1.5, 1.5, 1.5));
 	_shader->use();
+	
+	//unsigned int transformLoc = glGetUniformLocation(_shader->ID, "transform");
+	//glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+
 	_shader->setFloat("time", (float)_timer);
-	_shader->set2Float("resolution", 100, 100);
+	_shader->set2Float("resolution", 800, 600);
 	_timer += DELTA;
 
 	glBindVertexArray(_VAO);

@@ -104,9 +104,9 @@ int main()
 		background.draw();
 
 		// render the triangle
-		ourShader.use();
-		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		//ourShader.use();
+		//glBindVertexArray(VAO);
+		//glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		//testShader.use();
 		//testShader.setFloat("time", (float)ff);
