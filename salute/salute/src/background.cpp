@@ -5,14 +5,15 @@
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "resourceManager.h"
 
 const double DELTA = 0.02;
+const std::string BACKGROUND_NAME = "background";
 
 Background::Background():
 _VBO(0),
 _VAO(0),
-_timer(0.0),
-_shader(nullptr)
+_timer(0.0)
 {
 	init();
 }
@@ -21,8 +22,6 @@ Background::~Background()
 {
 	glDeleteVertexArrays(1, &_VAO);
 	glDeleteBuffers(1, &_VBO);
-
-	delete _shader;
 }
 
 void Background::draw()
@@ -37,9 +36,11 @@ void Background::draw()
 	
 	//unsigned int transformLoc = glGetUniformLocation(_shader->ID, "transform");
 	//glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
-	_shader->Use();
-	_shader->SetFloat("time", (float)_timer);
-	_shader->SetVector2f("resolution", SCR_WIDTH, SCR_HEIGHT);
+	
+	Shader* shader = ResourceManager::GetShader(BACKGROUND_NAME);
+	shader->Use();
+	shader->SetFloat("time", (float)_timer);
+	shader->SetVector2f("resolution", SCR_WIDTH, SCR_HEIGHT);
 	_timer += DELTA;
 
 	glBindVertexArray(_VAO);
@@ -48,8 +49,7 @@ void Background::draw()
 
 void Background::init()
 {
-	_shader = new Shader();
-	_shader->Compile("..\\salute\\src\\shaders\\clouds.vs", "..\\salute\\src\\shaders\\clouds.fs");
+	ResourceManager::LoadShader("..\\salute\\src\\shaders\\clouds.vs", "..\\salute\\src\\shaders\\clouds.fs", nullptr, BACKGROUND_NAME);
 
 	float vertices[] = {
 		// positions         

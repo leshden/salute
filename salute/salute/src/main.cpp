@@ -52,13 +52,8 @@ int main()
 	// build and compile our shader program
 	// ------------------------------------
 	//Shader testShader;
-	Shader ourShader;
+	Shader* ourShader = ResourceManager::LoadShader("..\\salute\\src\\shaders\\shader.vs", "..\\salute\\src\\shaders\\shader.fs", nullptr, "test");
 
-	//testShader.Compile("D:\\saluteproject\\salute\\salute\\src\\shaders\\clouds.vs", "D:\\saluteproject\\salute\\salute\\src\\shaders\\clouds.fs");
-	ourShader.Compile("..\\salute\\src\\shaders\\shader.vs", "..\\salute\\src\\shaders\\shader.fs"); // you can name your shader files however you like
-
-														// set up vertex data (and buffer(s)) and configure vertex attributes
-														// ------------------------------------------------------------------
 	float vertices[] = {
 		// positions          // colors           // texture coords
 		0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
@@ -125,7 +120,7 @@ int main()
 		texture2d.Bind();
 
 		// render container
-		ourShader.Use();
+		ourShader->Use();
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
