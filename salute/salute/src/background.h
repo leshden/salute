@@ -1,4 +1,5 @@
-
+#ifndef BACKGROUND_H
+#define BACKGROUND_H
 class Shader;
 
 class Background {
@@ -14,3 +15,4 @@ private:
 	double _timer;
 	Shader *_shader;
 };
+#endif
