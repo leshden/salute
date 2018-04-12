@@ -32,13 +32,13 @@ void Background::draw()
 	//transform = glm::translate(transform, glm::vec3(0.5f, -1.0f, 0.0f));
 	//transform = glm::rotate(transform, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	//transform = glm::scale(transform, glm::vec3(1.5, 1.5, 1.5));
-	_shader->use();
+	//_shader->use();
 	
 	//unsigned int transformLoc = glGetUniformLocation(_shader->ID, "transform");
 	//glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
-
-	_shader->setFloat("time", (float)_timer);
-	_shader->set2Float("resolution", 800, 600);
+	_shader->Use();
+	_shader->SetFloat("time", (float)_timer);
+	_shader->SetVector2f("resolution", SCR_WIDTH, SCR_HEIGHT);
 	_timer += DELTA;
 
 	glBindVertexArray(_VAO);
@@ -47,7 +47,8 @@ void Background::draw()
 
 void Background::init()
 {
-	_shader = new Shader("D:\\saluteproject\\salute\\salute\\src\\shaders\\clouds.vs", "D:\\saluteproject\\salute\\salute\\src\\shaders\\clouds.fs");
+	_shader = new Shader();
+	_shader->Compile("..\\salute\\src\\shaders\\clouds.vs", "..\\salute\\src\\shaders\\clouds.fs");
 
 	float vertices[] = {
 		// positions         

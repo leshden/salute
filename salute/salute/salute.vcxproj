@@ -119,11 +119,15 @@
     <ClCompile Include="src\background.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\scene.cpp" />
+    <ClCompile Include="src\shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\background.h" />
     <ClInclude Include="src\constants.h" />
+    <ClInclude Include="src\scene.h" />
     <ClInclude Include="src\shader.h" />
+    <ClInclude Include="src\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\clouds.fs" />
