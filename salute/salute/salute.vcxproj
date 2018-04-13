@@ -121,6 +121,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\resourceManager.cpp" />
     <ClCompile Include="src\scene.cpp" />
+    <ClCompile Include="src\sceneObject.cpp" />
     <ClCompile Include="src\shader.cpp" />
     <ClCompile Include="src\spriteRenderer.cpp" />
     <ClCompile Include="src\texture.cpp" />
@@ -130,6 +131,7 @@
     <ClInclude Include="src\constants.h" />
     <ClInclude Include="src\resourceManager.h" />
     <ClInclude Include="src\scene.h" />
+    <ClInclude Include="src\sceneObject.h" />
     <ClInclude Include="src\shader.h" />
     <ClInclude Include="src\spriteRenderer.h" />
     <ClInclude Include="src\stb_image.h" />
@@ -138,6 +140,8 @@
   <ItemGroup>
     <None Include="src\shaders\clouds.fs" />
     <None Include="src\shaders\clouds.vs" />
+    <None Include="src\shaders\particle.fs" />
+    <None Include="src\shaders\particle.vs" />
     <None Include="src\shaders\shader.fs" />
     <None Include="src\shaders\shader.vs" />
     <None Include="src\shaders\sprite.fs" />

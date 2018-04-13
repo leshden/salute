@@ -3,6 +3,7 @@
 
 class SpriteRenderer;
 class Background;
+class SceneObject;
 
 class Scene
 {
@@ -21,6 +22,7 @@ private :
 	unsigned int height;
 	SpriteRenderer* renderer;
 	Background* background;
+	SceneObject* object;
 };
 
 #endif

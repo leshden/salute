@@ -39,6 +39,9 @@
     <ClCompile Include="src\spriteRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\sceneObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\shader.h">
@@ -65,6 +68,9 @@
     <ClInclude Include="src\spriteRenderer.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\sceneObject.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\shader.fs">
@@ -89,6 +95,12 @@
       <Filter>Source Files</Filter>
     </None>
     <None Include="src\shaders\sprite.vs">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="src\shaders\particle.fs">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="src\shaders\particle.vs">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>

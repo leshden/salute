@@ -102,6 +102,7 @@ Texture2D ResourceManager::loadTextureFromFile(const char *file, bool alpha)
 	}
 	// Load image
 	int width, height, nrChannels;
+	stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
 	unsigned char* image = stbi_load(file, &width, &height, &nrChannels, 0);
 	// Now generate texture
 	texture.Generate(width, height, image);
