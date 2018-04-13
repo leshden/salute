@@ -14,6 +14,8 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 void processInput(GLFWwindow *window);
 
+Scene scene(SCR_WIDTH, SCR_HEIGHT);
+
 int main()
 {
 	// glfw: initialize and configure
@@ -45,7 +47,6 @@ int main()
 		return -1;
 	}
 
-	Scene scene(SCR_WIDTH, SCR_HEIGHT);
 	scene.Init();
 
 	//create background
@@ -127,7 +128,8 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 		int width, height;
 		glfwGetWindowSize(window, &width, &height);
 		glfwGetCursorPos(window, &xpos, &ypos);
-		std::cout << "xpos: " << xpos << std::endl;
-		std::cout << "ypos: " << height - ypos << std::endl; 
+		scene.ProcessMouseButtonInput(xpos, height - ypos);
+		//std::cout << "xpos: " << xpos << std::endl;
+		//std::cout << "ypos: " << height - ypos << std::endl; 
 	}
 }

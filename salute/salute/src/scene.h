@@ -15,6 +15,7 @@ public:
 	void Init();
 
 	void ProcessInput(float dt);
+	void ProcessMouseButtonInput(double xpos, double ypos);
 	void Update(float dt);
 	void Render();
 private :

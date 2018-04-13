@@ -6,6 +6,7 @@
 #include "background.h"
 #include "sceneObject.h"
 #include "particleGenerator.h"
+#include <iostream>
 
 Scene::Scene(unsigned int width, unsigned int height):
 width(width), 
@@ -60,6 +61,12 @@ void Scene::Update(float dt)
 void Scene::ProcessInput(float dt)
 {
 
+}
+
+void Scene::ProcessMouseButtonInput(double xpos, double ypos)
+{
+	std::cout << "xpos: " << xpos << std::endl;
+	std::cout << "ypos: " << ypos << std::endl; 
 }
 
 void Scene::Render()
