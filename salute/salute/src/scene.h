@@ -4,6 +4,7 @@
 class SpriteRenderer;
 class Background;
 class SceneObject;
+class ParticleGenerator;
 
 class Scene
 {
@@ -23,6 +24,7 @@ private :
 	SpriteRenderer* renderer;
 	Background* background;
 	SceneObject* object;
+	ParticleGenerator *particles;
 };
 
 #endif
