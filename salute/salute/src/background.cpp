@@ -49,7 +49,7 @@ void Background::draw()
 
 void Background::init()
 {
-	ResourceManager::LoadShader("..\\salute\\src\\shaders\\clouds.vs", "..\\salute\\src\\shaders\\clouds.fs", nullptr, BACKGROUND_NAME);
+	//ResourceManager::LoadShader("..\\salute\\src\\shaders\\clouds.vs", "..\\salute\\src\\shaders\\clouds.fs", nullptr, BACKGROUND_NAME);
 
 	float vertices[] = {
 		// positions         

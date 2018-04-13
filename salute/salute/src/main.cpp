@@ -7,8 +7,7 @@
 #include "background.h"
 #include "texture.h"
 #include "resourceManager.h"
-//#define STB_IMAGE_IMPLEMENTATION
-//#include "stb_image.h"
+#include "scene.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
@@ -22,14 +21,9 @@ int main()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-#ifdef __APPLE__
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // uncomment this statement to fix compilation on OS X
-#endif
-
-														 // glfw window creation
-														 // --------------------
-	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
-	if (window == NULL)
+	// glfw window creation										
+	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Scene", NULL, NULL);
+	if (window == nullptr)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
@@ -46,65 +40,34 @@ int main()
 		return -1;
 	}
 
+	Scene scene(SCR_WIDTH, SCR_HEIGHT);
+	scene.Init();
+
 	//create background
-	Background background;
+	//Background background;
 
-	// build and compile our shader program
-	// ------------------------------------
-	//Shader testShader;
-	Shader* ourShader = ResourceManager::LoadShader("..\\salute\\src\\shaders\\shader.vs", "..\\salute\\src\\shaders\\shader.fs", nullptr, "test");
-
-	float vertices[] = {
-		// positions          // colors           // texture coords
-		0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
-		0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
-		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
-		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left 
-	};
-
-	unsigned int indices[] = {
-		0, 1, 3, // first triangle
-		1, 2, 3  // second triangle
-	};
-
-	
-	unsigned int VBO, VAO, EBO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
-
-	glBindVertexArray(VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-	// position attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	// color attribute
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-	// texture coord attribute
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(2);
-
-	Texture2D texture2d = ResourceManager::LoadTexture("..\\salute\\res\\wall.jpg", false, "wall");
-
-	//delta time
-	std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+	// DeltaTime variables
+	GLfloat deltaTime = 0.0f;
+	GLfloat lastFrame = 0.0f;
 
 	// render loop
 	// -----------
-	double ff = 0.0;
 	while (!glfwWindowShouldClose(window))
 	{
-		std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<double> dt = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-		
-		t1 = t2;
+		// Calculate delta time
+		GLfloat currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+
+		glfwPollEvents();
+
+		//deltaTime = 0.001f;
+		// Manage user input
+		scene.ProcessInput(deltaTime);
+
+		// Update Game state
+		scene.Update(deltaTime);
+
 		// input
 		// -----
 		processInput(window);
@@ -113,37 +76,15 @@ int main()
 		// ------
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-
-		background.draw();
-
-		// bind Texture
-		texture2d.Bind();
-
-		// render container
-		ourShader->Use();
-		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-		//testShader.use();
-		//testShader.setFloat("time", (float)ff);
-		//testShader.set2Float("resolution", 800, 600);
-		//ff+=0.02;
-		
-		//std::cout << dt.count() << std::endl;
-	/*	glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);*/
+		scene.Render();
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
 		glfwSwapBuffers(window);
-		glfwPollEvents();
 	}
 
-	// optional: de-allocate all resources once they've outlived their purpose:
-	// ------------------------------------------------------------------------
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
-
+	// Delete all resources as loaded using the resource manager
+	ResourceManager::Clear();
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
 	glfwTerminate();

@@ -1,22 +1,26 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include <GLFW/glfw3.h>
+class SpriteRenderer;
+class Background;
 
 class Scene
 {
 public:
-	GLboolean              Keys[1024];
-	GLuint                 Width, Height;
-
-	Scene(GLuint width, GLuint height);
+	Scene(unsigned int width, unsigned int height);
 	~Scene();
 
 	void Init();
 
-	void ProcessInput(GLfloat dt);
-	void Update(GLfloat dt);
+	void ProcessInput(float dt);
+	void Update(float dt);
 	void Render();
+private :
+	bool keys[1024];
+	unsigned int  width;
+	unsigned int height;
+	SpriteRenderer* renderer;
+	Background* background;
 };
 
 #endif
