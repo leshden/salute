@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 #include "particleGenerator.h"
 #include "sceneObject.h"
+#include "spriteRenderer.h"
 
 ParticleGenerator::ParticleGenerator(Shader shader, Texture2D texture, unsigned int amount)
 	: shader(shader), texture(texture), amount(amount)
@@ -76,8 +77,20 @@ void ParticleGenerator::init()
 	glBindVertexArray(0);
 
 	// Create this->amount default particle instances
-	for (unsigned int i = 0; i < this->amount; ++i)
-		this->particles.push_back(Particle());
+	for (unsigned int i = 0; i < this->amount; ++i) {
+		Particle particle;
+
+		float random = ((rand() % 100) - 50) / 10.0f;
+		float rColor = 0.5 + ((rand() % 100) / 100.0f);
+		particle.Position = glm::vec2(400, 300) + random;
+		particle.Color = glm::vec4(rColor, rColor, rColor, 1.0f);
+		particle.Life = 1.0f;
+		int velocityX = rand() % 200 - 100;
+		int velocityY = rand() % 200 - 100;
+		particle.Velocity = glm::vec2(-velocityX, -velocityY);
+
+		this->particles.push_back(particle);
+	}
 }
 
 // Stores the index of the last particle used (for quick access to next dead particle)
@@ -110,5 +123,7 @@ void ParticleGenerator::respawnParticle(Particle &particle, SceneObject &object,
 	particle.Position = object.Position + random + offset;
 	particle.Color = glm::vec4(rColor, rColor, rColor, 1.0f);
 	particle.Life = 1.0f;
-	particle.Velocity = object.Velocity * 0.1f;
+	int velocityX = rand() % 200 - 100;
+	int velocityY = rand() % 200 - 100;
+	particle.Velocity = glm::vec2(-velocityX, -velocityY); //object.Velocity* 0.1f;
 }
