@@ -10,6 +10,8 @@
 #include "scene.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 void processInput(GLFWwindow *window);
 
 int main()
@@ -31,6 +33,9 @@ int main()
 	}
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glfwSetCursorPosCallback(window, cursor_position_callback);
+	//If you wish to be notified when a mouse button is pressed or released, set a mouse button callback.
+	glfwSetMouseButtonCallback(window, mouse_button_callback);
 
 	// glad: load all OpenGL function pointers
 	// ---------------------------------------
@@ -106,4 +111,23 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	// make sure the viewport matches the new window dimensions; note that width and 
 	// height will be significantly larger than specified on retina displays.
 	glViewport(0, 0, width, height);
+}
+
+//If you wish to be notified when the cursor moves over the window, set a cursor position callback.
+void cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
+	/*int width, height;
+	glfwGetWindowSize(window, &width, &height);
+	std::cout << "xpos: " << xpos << std::endl;
+	std::cout << "ypos: " << height - ypos << std::endl;*/
+}
+//The callback function receives the mouse button, button action and modifier bits.
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+		double xpos, ypos;
+		int width, height;
+		glfwGetWindowSize(window, &width, &height);
+		glfwGetCursorPos(window, &xpos, &ypos);
+		std::cout << "xpos: " << xpos << std::endl;
+		std::cout << "ypos: " << height - ypos << std::endl; 
+	}
 }
