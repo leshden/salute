@@ -44,7 +44,8 @@ private:
 	// Returns the first Particle index that's currently unused e.g. Life <= 0.0f or 0 if no particle is currently inactive
 	unsigned int firstUnusedParticle();
 	// Respawns particle
-	void respawnParticle(Particle &particle, glm::vec2 offset = glm::vec2(0.0f, 0.0f));
+	void respawnParticle(Particle &particle, glm::vec2 offset = glm::vec2(0.0f, 0.0f), glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f));
+	glm::vec3 generateColor();
 };
 
 #endif

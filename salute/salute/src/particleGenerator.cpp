@@ -13,10 +13,11 @@ void ParticleGenerator::Update(float dt, SceneObject &object, unsigned int newPa
 {
 	// Add new particles 
 	if (_repeat) {
+		glm::vec3 color = generateColor();
 		for (unsigned int i = 0; i < newParticles; ++i)
 		{
 			int unusedParticle = this->firstUnusedParticle();
-			this->respawnParticle(this->particles[unusedParticle], offset);
+			this->respawnParticle(this->particles[unusedParticle], offset, color);
 		}
 	}
 	// Update all particles
@@ -79,9 +80,10 @@ void ParticleGenerator::init()
 	glBindVertexArray(0);
 
 	// Create this->amount default particle instances
+	glm::vec3 color = generateColor();
 	for (unsigned int i = 0; i < this->amount; ++i) {
 		Particle particle;
-		respawnParticle(particle, glm::vec2(0));
+		respawnParticle(particle, glm::vec2(0), color);
 		this->particles.push_back(particle);
 	}
 }
@@ -109,14 +111,28 @@ unsigned int ParticleGenerator::firstUnusedParticle()
 	return 0;
 }
 
-void ParticleGenerator::respawnParticle(Particle &particle, glm::vec2 offset)
+void ParticleGenerator::respawnParticle(Particle &particle, glm::vec2 offset, glm::vec3 color)
 {
 	float random = ((rand() % 100) - 50) / 10.0f;
-	float rColor = 0.5 + ((rand() % 100) / 100.0f);
-	particle.Position = position + random + offset;
-	particle.Color = glm::vec4(rColor, rColor, rColor, 1.0f);
+	//float rColor = 0.5 + ((rand() % 100) / 100.0f);
+	//float redColor = rand() % 2; 
+	//float greenColor = rand() % 2;
+	//float blueColor = rand() % 2;
+	particle.Position = position;// +random + offset;
+	particle.Color = glm::vec4(color.x, color.y, color.z, 1.0f);
 	particle.Life = 1.0f;
 	int velocityX = rand() % 200 - 100;
 	int velocityY = rand() % 200 - 100;
 	particle.Velocity = glm::vec2(-velocityX, -velocityY); //object.Velocity* 0.1f;
+}
+
+glm::vec3 ParticleGenerator::generateColor()
+{
+	float redColor = rand() % 2; 
+	float greenColor = rand() % 2;
+	float blueColor = rand() % 2;
+	if (!redColor && !greenColor && !blueColor) {
+		redColor = 1.0f;
+	}
+	return glm::vec3(redColor, greenColor, blueColor);
 }
