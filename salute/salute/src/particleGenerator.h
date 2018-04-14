@@ -24,13 +24,14 @@ class ParticleGenerator
 {
 public:
 	// Constructor
-	ParticleGenerator(Shader shader, Texture2D texture, unsigned int amount, glm::vec2 position);
+	ParticleGenerator(Shader shader, Texture2D texture, unsigned int amount, glm::vec2 position, bool repeat = true);
 	// Update all particles
 	void Update(float dt, SceneObject &object, unsigned int newParticles, glm::vec2 offset = glm::vec2(0.0f, 0.0f));
 	// Render all particles
 	void Draw();
 private:
 	// State
+	bool _repeat;
 	std::vector<Particle> particles;
 	unsigned int amount;
 	glm::vec2 position;
@@ -43,7 +44,7 @@ private:
 	// Returns the first Particle index that's currently unused e.g. Life <= 0.0f or 0 if no particle is currently inactive
 	unsigned int firstUnusedParticle();
 	// Respawns particle
-	void respawnParticle(Particle &particle, SceneObject &object, glm::vec2 offset = glm::vec2(0.0f, 0.0f));
+	void respawnParticle(Particle &particle, glm::vec2 offset = glm::vec2(0.0f, 0.0f));
 };
 
 #endif

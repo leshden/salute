@@ -3,8 +3,8 @@
 #include "sceneObject.h"
 #include "spriteRenderer.h"
 
-ParticleGenerator::ParticleGenerator(Shader shader, Texture2D texture, unsigned int amount, glm::vec2 position)
-	: shader(shader), texture(texture), amount(amount), position(position)
+ParticleGenerator::ParticleGenerator(Shader shader, Texture2D texture, unsigned int amount, glm::vec2 position, bool repeat)
+	: shader(shader), texture(texture), amount(amount), position(position), _repeat(repeat)
 {
 	this->init();
 }
@@ -12,10 +12,12 @@ ParticleGenerator::ParticleGenerator(Shader shader, Texture2D texture, unsigned 
 void ParticleGenerator::Update(float dt, SceneObject &object, unsigned int newParticles, glm::vec2 offset)
 {
 	// Add new particles 
-	for (unsigned int i = 0; i < newParticles; ++i)
-	{
-		int unusedParticle = this->firstUnusedParticle();
-		this->respawnParticle(this->particles[unusedParticle], object, offset);
+	if (_repeat) {
+		for (unsigned int i = 0; i < newParticles; ++i)
+		{
+			int unusedParticle = this->firstUnusedParticle();
+			this->respawnParticle(this->particles[unusedParticle], offset);
+		}
 	}
 	// Update all particles
 	for (unsigned int i = 0; i < this->amount; ++i)
@@ -79,16 +81,7 @@ void ParticleGenerator::init()
 	// Create this->amount default particle instances
 	for (unsigned int i = 0; i < this->amount; ++i) {
 		Particle particle;
-
-		float random = ((rand() % 100) - 50) / 10.0f;
-		float rColor = 0.5 + ((rand() % 100) / 100.0f);
-		particle.Position = position + random;
-		particle.Color = glm::vec4(rColor, rColor, rColor, 1.0f);
-		particle.Life = 1.0f;
-		int velocityX = rand() % 200 - 100;
-		int velocityY = rand() % 200 - 100;
-		particle.Velocity = glm::vec2(-velocityX, -velocityY);
-
+		respawnParticle(particle, glm::vec2(0));
 		this->particles.push_back(particle);
 	}
 }
@@ -116,7 +109,7 @@ unsigned int ParticleGenerator::firstUnusedParticle()
 	return 0;
 }
 
-void ParticleGenerator::respawnParticle(Particle &particle, SceneObject &object, glm::vec2 offset)
+void ParticleGenerator::respawnParticle(Particle &particle, glm::vec2 offset)
 {
 	float random = ((rand() % 100) - 50) / 10.0f;
 	float rColor = 0.5 + ((rand() % 100) / 100.0f);

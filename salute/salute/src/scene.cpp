@@ -36,6 +36,7 @@ void Scene::Init()
 	// Load textures
 	ResourceManager::LoadTexture("..\\salute\\res\\face.png", true, "face");
 	ResourceManager::LoadTexture("..\\salute\\res\\particle.png", true, "particle");
+	ResourceManager::LoadTexture("..\\salute\\res\\sparkle.png", true, "sparkle");
 
 	// Configure shaders
 	glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), -1.0f, 1.0f);
@@ -48,7 +49,7 @@ void Scene::Init()
 	// Set render-specific controls
 	renderer = new SpriteRenderer(*ResourceManager::GetShader("sprite"));
 	background = new Background();
-	particles = new ParticleGenerator(*ResourceManager::GetShader("particle"), ResourceManager::GetTexture("face"), 100, glm::vec2(400, 300));
+	particles = new ParticleGenerator(*ResourceManager::GetShader("particle"), ResourceManager::GetTexture("sparkle"), 100, glm::vec2(400, 300));
 	object = new SceneObject(glm::vec2(400, 300), glm::vec2(100, 100), ResourceManager::GetTexture("face"));
 }
 
@@ -70,7 +71,7 @@ void Scene::ProcessMouseButtonInput(double xpos, double ypos)
 {
 	std::cout << "xpos: " << xpos << std::endl;
 	std::cout << "ypos: " << ypos << std::endl; 
-	_partVec.push_back(new ParticleGenerator(*ResourceManager::GetShader("particle"), ResourceManager::GetTexture("face"), 100, glm::vec2(xpos, ypos)));
+	_partVec.push_back(new ParticleGenerator(*ResourceManager::GetShader("particle"), ResourceManager::GetTexture("face"), 100, glm::vec2(xpos, ypos), false));
 	//_pVec.push_back(new SceneObject(glm::vec2(xpos, ypos), glm::vec2(100, 100), ResourceManager::GetTexture("face")));
 	//new SceneObject(glm::vec2(xpos, ypos), glm::vec2(100, 100), ResourceManager::GetTexture("face"));
 	//_partVec.push_back();
