@@ -49,15 +49,15 @@ void Scene::Init()
 	// Set render-specific controls
 	renderer = new SpriteRenderer(*ResourceManager::GetShader("sprite"));
 	background = new Background();
-	particles = new ParticleGenerator(*ResourceManager::GetShader("particle"), ResourceManager::GetTexture("sparkle"), 100, glm::vec2(400, 300));
-	object = new SceneObject(glm::vec2(400, 300), glm::vec2(100, 100), ResourceManager::GetTexture("face"));
+	//particles = new ParticleGenerator(*ResourceManager::GetShader("particle"), ResourceManager::GetTexture("sparkle"), 100, glm::vec2(400, 300));
+	//object = new SceneObject(glm::vec2(400, 300), glm::vec2(100, 100), ResourceManager::GetTexture("face"));
 }
 
 void Scene::Update(float dt)
 {
-	particles->Update(dt, *object, 20, glm::vec2(10));
+	//particles->Update(dt, *object, 20, glm::vec2(10));
 	for (ParticleGenerator* pg : _partVec) {
-		pg->Update(dt, *object, 20, glm::vec2(10));
+		pg->Update(dt, 20, glm::vec2(10));
 	}
 }
 
@@ -71,7 +71,9 @@ void Scene::ProcessMouseButtonInput(double xpos, double ypos)
 {
 	std::cout << "xpos: " << xpos << std::endl;
 	std::cout << "ypos: " << ypos << std::endl; 
-	_partVec.push_back(new ParticleGenerator(*ResourceManager::GetShader("particle"), ResourceManager::GetTexture("face"), 100, glm::vec2(xpos, ypos), false));
+	float scale = rand() % 5 + 1;
+	float life = rand() % 2 + 0.5f;
+	_partVec.push_back(new ParticleGenerator(*ResourceManager::GetShader("particle"), ResourceManager::GetTexture("sparkle"), 100, glm::vec2(xpos, ypos), scale, life, false));
 	//_pVec.push_back(new SceneObject(glm::vec2(xpos, ypos), glm::vec2(100, 100), ResourceManager::GetTexture("face")));
 	//new SceneObject(glm::vec2(xpos, ypos), glm::vec2(100, 100), ResourceManager::GetTexture("face"));
 	//_partVec.push_back();
@@ -88,7 +90,7 @@ void Scene::Render()
 		pg->Draw();
 	}
 	//object->Draw(*renderer);
-	particles->Draw();
+	//particles->Draw();
 }
 
 void Scene::CheckOnDelete()

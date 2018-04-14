@@ -3,13 +3,13 @@
 #include "sceneObject.h"
 #include "spriteRenderer.h"
 
-ParticleGenerator::ParticleGenerator(Shader shader, Texture2D texture, unsigned int amount, glm::vec2 position, bool repeat)
-	: shader(shader), texture(texture), amount(amount), position(position), _repeat(repeat)
+ParticleGenerator::ParticleGenerator(Shader shader, Texture2D texture, unsigned int amount, glm::vec2 position, float scale, float life, bool repeat)
+	: shader(shader), texture(texture), amount(amount), position(position), scale(scale), life(life), _repeat(repeat)
 {
 	this->init();
 }
 
-void ParticleGenerator::Update(float dt, SceneObject &object, unsigned int newParticles, glm::vec2 offset)
+void ParticleGenerator::Update(float dt, unsigned int newParticles, glm::vec2 offset)
 {
 	// Add new particles 
 	if (_repeat) {
@@ -43,6 +43,7 @@ void ParticleGenerator::Draw()
 	{
 		if (particle.Life > 0.0f)
 		{
+			this->shader.SetFloat("scale", scale);
 			this->shader.SetVector2f("offset", particle.Position);
 			this->shader.SetVector4f("color", particle.Color);
 			this->texture.Bind();
@@ -120,7 +121,7 @@ void ParticleGenerator::respawnParticle(Particle &particle, glm::vec2 offset, gl
 	//float blueColor = rand() % 2;
 	particle.Position = position;// +random + offset;
 	particle.Color = glm::vec4(color.x, color.y, color.z, 1.0f);
-	particle.Life = 1.0f;
+	particle.Life = life;
 	int velocityX = rand() % 200 - 100;
 	int velocityY = rand() % 200 - 100;
 	particle.Velocity = glm::vec2(-velocityX, -velocityY); //object.Velocity* 0.1f;
