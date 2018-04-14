@@ -1,6 +1,8 @@
 #ifndef SCENE_H
 #define SCENE_H
 
+#include<vector>
+
 class SpriteRenderer;
 class Background;
 class SceneObject;
@@ -18,6 +20,7 @@ public:
 	void ProcessMouseButtonInput(double xpos, double ypos);
 	void Update(float dt);
 	void Render();
+	void CheckOnDelete();
 private :
 	bool keys[1024];
 	unsigned int  width;
@@ -25,7 +28,9 @@ private :
 	SpriteRenderer* renderer;
 	Background* background;
 	SceneObject* object;
-	ParticleGenerator *particles;
+	ParticleGenerator* particles;
+	std::vector<SceneObject*> _pVec;
+	std::vector<ParticleGenerator*> _partVec;
 };
 
 #endif

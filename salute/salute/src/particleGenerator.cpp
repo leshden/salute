@@ -3,8 +3,8 @@
 #include "sceneObject.h"
 #include "spriteRenderer.h"
 
-ParticleGenerator::ParticleGenerator(Shader shader, Texture2D texture, unsigned int amount)
-	: shader(shader), texture(texture), amount(amount)
+ParticleGenerator::ParticleGenerator(Shader shader, Texture2D texture, unsigned int amount, glm::vec2 position)
+	: shader(shader), texture(texture), amount(amount), position(position)
 {
 	this->init();
 }
@@ -82,7 +82,7 @@ void ParticleGenerator::init()
 
 		float random = ((rand() % 100) - 50) / 10.0f;
 		float rColor = 0.5 + ((rand() % 100) / 100.0f);
-		particle.Position = glm::vec2(400, 300) + random;
+		particle.Position = position + random;
 		particle.Color = glm::vec4(rColor, rColor, rColor, 1.0f);
 		particle.Life = 1.0f;
 		int velocityX = rand() % 200 - 100;
@@ -120,7 +120,7 @@ void ParticleGenerator::respawnParticle(Particle &particle, SceneObject &object,
 {
 	float random = ((rand() % 100) - 50) / 10.0f;
 	float rColor = 0.5 + ((rand() % 100) / 100.0f);
-	particle.Position = object.Position + random + offset;
+	particle.Position = position + random + offset;
 	particle.Color = glm::vec4(rColor, rColor, rColor, 1.0f);
 	particle.Life = 1.0f;
 	int velocityX = rand() % 200 - 100;
