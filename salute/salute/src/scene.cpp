@@ -37,6 +37,7 @@ void Scene::Init()
 	ResourceManager::LoadTexture("..\\salute\\res\\face.png", true, "face");
 	ResourceManager::LoadTexture("..\\salute\\res\\particle.png", true, "particle");
 	ResourceManager::LoadTexture("..\\salute\\res\\sparkle.png", true, "sparkle");
+	ResourceManager::LoadTexture("..\\salute\\res\\circle.png", true, "circle");
 
 	// Configure shaders
 	glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), -1.0f, 1.0f);
@@ -73,7 +74,7 @@ void Scene::ProcessMouseButtonInput(double xpos, double ypos)
 	std::cout << "ypos: " << ypos << std::endl; 
 	float scale = rand() % 5 + 1;
 	float life = rand() % 2 + 0.5f;
-	_partVec.push_back(new ParticleGenerator(*ResourceManager::GetShader("particle"), ResourceManager::GetTexture("sparkle"), 100, glm::vec2(xpos, ypos), scale, life, false));
+	_partVec.push_back(new ParticleGenerator(*ResourceManager::GetShader("particle"), ResourceManager::GetTexture("circle"), 100, glm::vec2(xpos, ypos), scale, life, false));
 	//_pVec.push_back(new SceneObject(glm::vec2(xpos, ypos), glm::vec2(100, 100), ResourceManager::GetTexture("face")));
 	//new SceneObject(glm::vec2(xpos, ypos), glm::vec2(100, 100), ResourceManager::GetTexture("face"));
 	//_partVec.push_back();
@@ -82,7 +83,7 @@ void Scene::ProcessMouseButtonInput(double xpos, double ypos)
 void Scene::Render()
 {
 	background->draw();
-	renderer->DrawSprite(ResourceManager::GetTexture("face"), glm::vec2(0, 0), glm::vec2(300, 400));
+	renderer->DrawSprite(ResourceManager::GetTexture("circle"), glm::vec2(0, 0), glm::vec2(300, 400));
 	for (SceneObject* so : _pVec) {
 		so->Draw(*renderer);
 	}
