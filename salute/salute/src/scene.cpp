@@ -48,7 +48,7 @@ void Scene::Init()
 	ResourceManager::GetShader("particle")->SetMatrix4("projection", projection);
 	
 	// Set render-specific controls
-	renderer = new SpriteRenderer(*ResourceManager::GetShader("sprite"));
+	//renderer = new SpriteRenderer(*ResourceManager::GetShader("sprite"));
 	background = new Background();
 	//particles = new ParticleGenerator(*ResourceManager::GetShader("particle"), ResourceManager::GetTexture("sparkle"), 100, glm::vec2(400, 300));
 	//object = new SceneObject(glm::vec2(400, 300), glm::vec2(100, 100), ResourceManager::GetTexture("face"));
@@ -83,7 +83,7 @@ void Scene::ProcessMouseButtonInput(double xpos, double ypos)
 void Scene::Render()
 {
 	background->draw();
-	renderer->DrawSprite(ResourceManager::GetTexture("circle"), glm::vec2(0, 0), glm::vec2(300, 400));
+	//renderer->DrawSprite(ResourceManager::GetTexture("circle"), glm::vec2(0, 0), glm::vec2(300, 400));
 	for (SceneObject* so : _pVec) {
 		so->Draw(*renderer);
 	}

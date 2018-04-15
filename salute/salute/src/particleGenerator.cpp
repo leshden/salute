@@ -61,7 +61,6 @@ bool ParticleGenerator::isDeadGenerator()
 	if (_repeat) {
 		return false;
 	}
-
 	for (Particle particle : this->particles)
 	{
 		if (particle.Life > 0.0f)
