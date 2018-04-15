@@ -56,6 +56,23 @@ void ParticleGenerator::Draw()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
+bool ParticleGenerator::isDeadGenerator()
+{
+	if (_repeat) {
+		return false;
+	}
+
+	for (Particle particle : this->particles)
+	{
+		if (particle.Life > 0.0f)
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 void ParticleGenerator::init()
 {
 	// Set up mesh and attribute properties

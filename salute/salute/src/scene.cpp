@@ -96,4 +96,25 @@ void Scene::Render()
 
 void Scene::CheckOnDelete()
 {
+	std::vector<ParticleGenerator*> timeVecActive;
+	std::vector<ParticleGenerator*> timeVecDisactive;
+	for (ParticleGenerator* pg : _partVec) {
+		if (!pg->isDeadGenerator()) {
+			timeVecActive.push_back(pg);
+		}
+		else {
+			timeVecDisactive.push_back(pg);
+		}
+	}
+	if (!timeVecDisactive.empty()) {
+		for (ParticleGenerator* pg : timeVecDisactive) {
+			delete pg;
+		}
+
+		_partVec.clear();
+
+		for (ParticleGenerator* pg : timeVecActive) {
+			_partVec.push_back(pg);
+		}
+	}
 }

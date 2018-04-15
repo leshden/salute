@@ -29,6 +29,7 @@ public:
 	void Update(float dt, unsigned int newParticles, glm::vec2 offset = glm::vec2(0.0f, 0.0f));
 	// Render all particles
 	void Draw();
+	bool isDeadGenerator();
 private:
 	// State
 	bool _repeat;
