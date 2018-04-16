@@ -27,7 +27,7 @@ void main()
 	//colortest.red = position.y;
 	vec4 ff = vec4(0.0, position.y, 0.0 ,1.0);
 
-	color = texture(image, TexCoords) * ff;
+	color = texture(image, TexCoords);// * ff;
 
 	//float red = 1.0 - length(distance);
 	//color = vec4(1.0, 0, 0, 1.0);

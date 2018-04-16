@@ -38,6 +38,10 @@ void Scene::Init()
 	ResourceManager::LoadTexture("..\\salute\\res\\particle.png", true, "particle");
 	ResourceManager::LoadTexture("..\\salute\\res\\sparkle.png", true, "sparkle");
 	ResourceManager::LoadTexture("..\\salute\\res\\circle.png", true, "circle");
+	// must be degree 2 ... 512, 1024...
+	ResourceManager::LoadTexture("..\\salute\\res\\floor.png", false, "floor");
+
+	ResourceManager::LoadTexture("..\\salute\\res\\wall.png", false, "wall");
 
 	// Configure shaders
 	glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), -1.0f, 1.0f);
@@ -48,7 +52,7 @@ void Scene::Init()
 	ResourceManager::GetShader("particle")->SetMatrix4("projection", projection);
 	
 	// Set render-specific controls
-	//renderer = new SpriteRenderer(*ResourceManager::GetShader("sprite"));
+	renderer = new SpriteRenderer(*ResourceManager::GetShader("sprite"));
 	background = new Background();
 	//particles = new ParticleGenerator(*ResourceManager::GetShader("particle"), ResourceManager::GetTexture("sparkle"), 100, glm::vec2(400, 300));
 	//object = new SceneObject(glm::vec2(400, 300), glm::vec2(100, 100), ResourceManager::GetTexture("face"));
@@ -83,7 +87,7 @@ void Scene::ProcessMouseButtonInput(double xpos, double ypos)
 void Scene::Render()
 {
 	background->draw();
-	//renderer->DrawSprite(ResourceManager::GetTexture("circle"), glm::vec2(0, 0), glm::vec2(300, 400));
+	renderer->DrawSprite(ResourceManager::GetTexture("wall"), glm::vec2(200, 200), glm::vec2(300, 300));
 	for (SceneObject* so : _pVec) {
 		so->Draw(*renderer);
 	}
