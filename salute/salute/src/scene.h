@@ -26,6 +26,7 @@ private :
 	unsigned int  width;
 	unsigned int height;
 	SpriteRenderer* renderer;
+	SpriteRenderer* renderer3d;
 	Background* background;
 	SceneObject* object;
 	ParticleGenerator* particles;

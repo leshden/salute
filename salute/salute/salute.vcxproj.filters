@@ -109,5 +109,11 @@
     <None Include="src\shaders\particle.vs">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="src\shaders\sprite3d.fs">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="src\shaders\sprite3d.vs">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

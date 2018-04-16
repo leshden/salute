@@ -40,6 +40,30 @@ void SpriteRenderer::DrawSprite(Texture2D &texture, glm::vec2 position, glm::vec
 	glBindVertexArray(0);
 }
 
+void SpriteRenderer::DrawSprite3D(Texture2D &texture, glm::vec2 position, glm::vec2 size, float rotate, glm::vec3 color) {
+	// Prepare transformations
+	this->shader.Use();
+	glm::mat4 model;
+	model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+	this->shader.SetMatrix4("model", model);
+
+	glm::mat4 view;
+	// note that we're translating the scene in the reverse direction of where we want to move
+	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -2.0f));
+	this->shader.SetMatrix4("view", view);
+
+	// Render textured quad
+	this->shader.SetVector3f("spriteColor", color);
+
+	glActiveTexture(GL_TEXTURE0);
+	texture.Bind();
+
+	glBindVertexArray(this->quadVAO);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glBindVertexArray(0);
+}
+
 void SpriteRenderer::initRenderData()
 {
 	// Configure VAO/VBO

@@ -148,6 +148,8 @@
     <None Include="src\shaders\shader.vs" />
     <None Include="src\shaders\sprite.fs" />
     <None Include="src\shaders\sprite.vs" />
+    <None Include="src\shaders\sprite3d.fs" />
+    <None Include="src\shaders\sprite3d.vs" />
     <None Include="src\shaders\testshader.fs" />
     <None Include="src\shaders\testshader.vs" />
   </ItemGroup>
