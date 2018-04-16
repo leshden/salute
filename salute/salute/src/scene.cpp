@@ -94,7 +94,7 @@ void Scene::ProcessMouseButtonInput(double xpos, double ypos)
 
 void Scene::Render()
 {
-	background->draw();
+	//background->draw();
 	//renderer->DrawSprite(ResourceManager::GetTexture("wall"), glm::vec2(200, 200), glm::vec2(300, 300));
 	renderer3d->DrawSprite3D(ResourceManager::GetTexture("wall"), glm::vec2(200, 200), glm::vec2(300, 300));
 	for (SceneObject* so : _pVec) {
