@@ -117,6 +117,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\background.cpp" />
+    <ClCompile Include="src\fireworkGenerator.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\lineRenderer.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -131,6 +132,7 @@
   <ItemGroup>
     <ClInclude Include="src\background.h" />
     <ClInclude Include="src\constants.h" />
+    <ClInclude Include="src\fireworkGenerator.h" />
     <ClInclude Include="src\lineRenderer.h" />
     <ClInclude Include="src\particleGenerator.h" />
     <ClInclude Include="src\resourceManager.h" />

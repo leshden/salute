@@ -8,6 +8,7 @@
 #include "particleGenerator.h"
 #include <iostream>
 #include "lineRenderer.h"
+#include "fireworkGenerator.h"
 
 Scene::Scene(unsigned int width, unsigned int height):
 width(width), 
@@ -93,7 +94,9 @@ void Scene::ProcessMouseButtonInput(double xpos, double ypos)
 	std::cout << "ypos: " << ypos << std::endl; 
 	float scale = rand() % 5 + 1;
 	float life = rand() % 2 + 0.5f;
-	_partVec.push_back(new ParticleGenerator(*ResourceManager::GetShader("particle"), ResourceManager::GetTexture("circle"), 100, glm::vec2(xpos, ypos), scale, life, false));
+	//_partVec.push_back(new ParticleGenerator(*ResourceManager::GetShader("particle"), ResourceManager::GetTexture("circle"), 100, glm::vec2(xpos, ypos), scale, life, false));
+	
+	_fireVec.push_back(new FireworkGenerator(*ResourceManager::GetShader("line"), 300, glm::vec2(xpos, ypos), scale, life, false));
 	//_pVec.push_back(new SceneObject(glm::vec2(xpos, ypos), glm::vec2(100, 100), ResourceManager::GetTexture("face")));
 	//new SceneObject(glm::vec2(xpos, ypos), glm::vec2(100, 100), ResourceManager::GetTexture("face"));
 	//_partVec.push_back();
@@ -103,14 +106,19 @@ void Scene::Render()
 {
 	//background->draw();
 	//renderer->DrawSprite(ResourceManager::GetTexture("wall"), glm::vec2(200, 200), glm::vec2(300, 300));
-	line->DrawLine(glm::vec2(200, 200), glm::vec2(50, 50));
+	//line->DrawLine(glm::vec2(200, 200), glm::vec2(50, 50));
 	//renderer3d->DrawSprite3D(ResourceManager::GetTexture("wall"), glm::vec2(200, 200), glm::vec2(300, 300));
 	for (SceneObject* so : _pVec) {
 		so->Draw(*renderer);
 	}
-	for (ParticleGenerator* pg : _partVec) {
+	/*for (ParticleGenerator* pg : _partVec) {
 		pg->Draw();
+	}*/
+
+	for (FireworkGenerator* fg : _fireVec) {
+		fg->Draw();
 	}
+
 
 	//object->Draw(*renderer);
 	//particles->Draw();

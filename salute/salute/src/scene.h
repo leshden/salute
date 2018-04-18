@@ -8,6 +8,7 @@ class Background;
 class SceneObject;
 class ParticleGenerator;
 class LineRenderer;
+class FireworkGenerator;
 
 class Scene
 {
@@ -34,6 +35,7 @@ private :
 	ParticleGenerator* particles;
 	std::vector<SceneObject*> _pVec;
 	std::vector<ParticleGenerator*> _partVec;
+	std::vector<FireworkGenerator*> _fireVec;
 };
 
 #endif

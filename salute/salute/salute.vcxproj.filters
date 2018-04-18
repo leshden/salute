@@ -48,6 +48,9 @@
     <ClCompile Include="src\lineRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\fireworkGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\shader.h">
@@ -81,6 +84,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="src\lineRenderer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fireworkGenerator.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
