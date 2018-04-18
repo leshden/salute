@@ -118,6 +118,7 @@
   <ItemGroup>
     <ClCompile Include="src\background.cpp" />
     <ClCompile Include="src\glad.c" />
+    <ClCompile Include="src\lineRenderer.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\particleGenerator.cpp" />
     <ClCompile Include="src\resourceManager.cpp" />
@@ -130,6 +131,7 @@
   <ItemGroup>
     <ClInclude Include="src\background.h" />
     <ClInclude Include="src\constants.h" />
+    <ClInclude Include="src\lineRenderer.h" />
     <ClInclude Include="src\particleGenerator.h" />
     <ClInclude Include="src\resourceManager.h" />
     <ClInclude Include="src\scene.h" />
@@ -142,6 +144,8 @@
   <ItemGroup>
     <None Include="src\shaders\clouds.fs" />
     <None Include="src\shaders\clouds.vs" />
+    <None Include="src\shaders\line.fs" />
+    <None Include="src\shaders\line.vs" />
     <None Include="src\shaders\particle.fs" />
     <None Include="src\shaders\particle.vs" />
     <None Include="src\shaders\shader.fs" />

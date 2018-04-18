@@ -7,6 +7,7 @@ class SpriteRenderer;
 class Background;
 class SceneObject;
 class ParticleGenerator;
+class LineRenderer;
 
 class Scene
 {
@@ -25,6 +26,7 @@ private :
 	bool keys[1024];
 	unsigned int  width;
 	unsigned int height;
+	LineRenderer* line;
 	SpriteRenderer* renderer;
 	SpriteRenderer* renderer3d;
 	Background* background;

@@ -7,10 +7,12 @@
 #include "sceneObject.h"
 #include "particleGenerator.h"
 #include <iostream>
+#include "lineRenderer.h"
 
 Scene::Scene(unsigned int width, unsigned int height):
 width(width), 
 height(height),
+line(nullptr),
 renderer(nullptr),
 renderer3d(nullptr),
 background(nullptr),
@@ -22,6 +24,7 @@ particles(nullptr)
 
 Scene::~Scene()
 {
+	delete line;
 	delete renderer3d;
 	delete renderer;
 	delete background;
@@ -36,6 +39,7 @@ void Scene::Init()
 	ResourceManager::LoadShader("..\\salute\\src\\shaders\\sprite3d.vs", "..\\salute\\src\\shaders\\sprite3d.fs", nullptr, "sprite3d");
 	ResourceManager::LoadShader("..\\salute\\src\\shaders\\clouds.vs", "..\\salute\\src\\shaders\\clouds.fs", nullptr, "background");
 	ResourceManager::LoadShader("..\\salute\\src\\shaders\\particle.vs", "..\\salute\\src\\shaders\\particle.fs", nullptr, "particle");
+	ResourceManager::LoadShader("..\\salute\\src\\shaders\\line.vs", "..\\salute\\src\\shaders\\line.fs", nullptr, "line");
 	// Load textures
 	ResourceManager::LoadTexture("..\\salute\\res\\face.png", true, "face");
 	ResourceManager::LoadTexture("..\\salute\\res\\particle.png", true, "particle");
@@ -43,25 +47,28 @@ void Scene::Init()
 	ResourceManager::LoadTexture("..\\salute\\res\\circle.png", true, "circle");
 	// must be degree 2 ... 512, 1024...
 	ResourceManager::LoadTexture("..\\salute\\res\\floor.png", false, "floor");
-
 	ResourceManager::LoadTexture("..\\salute\\res\\wall.png", false, "wall");
 
 	// Configure shaders
 	//glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), -1.0f, 1.0f);
-	glm::mat4 projection = glm::perspective(glm::radians(45.0f), static_cast<float>(width) / static_cast<float>(height), 0.1f, 100.0f);
+	/*glm::mat4 projection = glm::perspective(glm::radians(45.0f), static_cast<float>(width) / static_cast<float>(height), 0.1f, 100.0f);
 	ResourceManager::GetShader("sprite3d")->Use().SetInteger("image", 0);
-	ResourceManager::GetShader("sprite3d")->SetMatrix4("projection", projection);
+	ResourceManager::GetShader("sprite3d")->SetMatrix4("projection", projection);*/
 
-	projection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), -1.0f, 1.0f);
+	glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), -1.0f, 1.0f);
 	ResourceManager::GetShader("sprite")->Use().SetInteger("image", 0);
 	ResourceManager::GetShader("sprite")->SetMatrix4("projection", projection);
 	ResourceManager::GetShader("particle")->Use();
 	ResourceManager::GetShader("particle")->SetMatrix4("projection", projection);
+	ResourceManager::GetShader("line")->Use();
+	ResourceManager::GetShader("line")->SetMatrix4("projection", projection);
 	
 	// Set render-specific controls
 	renderer = new SpriteRenderer(*ResourceManager::GetShader("sprite"));
-	renderer3d = new SpriteRenderer(*ResourceManager::GetShader("sprite3d"));
+	//renderer3d = new SpriteRenderer(*ResourceManager::GetShader("sprite3d"));
 	background = new Background();
+
+	line = new LineRenderer(*ResourceManager::GetShader("line"));
 	//particles = new ParticleGenerator(*ResourceManager::GetShader("particle"), ResourceManager::GetTexture("sparkle"), 100, glm::vec2(400, 300));
 	//object = new SceneObject(glm::vec2(400, 300), glm::vec2(100, 100), ResourceManager::GetTexture("face"));
 }
@@ -96,13 +103,15 @@ void Scene::Render()
 {
 	//background->draw();
 	//renderer->DrawSprite(ResourceManager::GetTexture("wall"), glm::vec2(200, 200), glm::vec2(300, 300));
-	renderer3d->DrawSprite3D(ResourceManager::GetTexture("wall"), glm::vec2(200, 200), glm::vec2(300, 300));
+	line->DrawLine(glm::vec2(200, 200), glm::vec2(50, 50));
+	//renderer3d->DrawSprite3D(ResourceManager::GetTexture("wall"), glm::vec2(200, 200), glm::vec2(300, 300));
 	for (SceneObject* so : _pVec) {
 		so->Draw(*renderer);
 	}
 	for (ParticleGenerator* pg : _partVec) {
 		pg->Draw();
 	}
+
 	//object->Draw(*renderer);
 	//particles->Draw();
 }

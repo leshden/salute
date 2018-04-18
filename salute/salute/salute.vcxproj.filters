@@ -45,6 +45,9 @@
     <ClCompile Include="src\particleGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\lineRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\shader.h">
@@ -75,6 +78,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="src\particleGenerator.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lineRenderer.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -113,6 +119,12 @@
       <Filter>Source Files</Filter>
     </None>
     <None Include="src\shaders\sprite3d.vs">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="src\shaders\line.fs">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="src\shaders\line.vs">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>

@@ -63,6 +63,7 @@ void SpriteRenderer::DrawSprite3D(Texture2D &texture, glm::vec2 position, glm::v
 
 	glBindVertexArray(this->quadVAO);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
+
 	glBindVertexArray(0);
 }
 
