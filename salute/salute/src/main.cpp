@@ -50,6 +50,8 @@ int main()
 
 	//glEnable(GL_DEPTH_TEST);
 	glEnable(GL_PROGRAM_POINT_SIZE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	scene.Init();
 
@@ -92,6 +94,7 @@ int main()
 
 		//check on delete
 		scene.CheckOnDelete();
+		scene.CheckOnDeleteFirework();
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------

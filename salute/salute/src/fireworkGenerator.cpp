@@ -9,8 +9,18 @@ FireworkGenerator::FireworkGenerator(Shader shader, unsigned int amount, glm::ve
 	this->init();
 }
 
-void FireworkGenerator::Update(float dt, unsigned int newParticles, glm::vec2 offset)
-{
+void FireworkGenerator::Update(float dt)
+{	
+	for (unsigned int i = 0; i < this->amount; ++i)
+	{
+		ParticleFire &p = this->particles[i];
+		p.Life -= dt; // reduce life
+		p.Color.a -= dt * 0.5f;
+		/*if (p.Life > 0.0f)
+		{	
+			p.Color.a -= dt * 2.5;
+		}*/
+	}
 }
 
 void FireworkGenerator::Draw()
@@ -28,53 +38,26 @@ void FireworkGenerator::Draw()
 			model = glm::translate(model, glm::vec3(particles[i].Position, 0.0f));  // First translate
 			this->shader.SetMatrix4("model", model);
 			this->shader.SetVector4f("color", particles[i].Color);
+			//pointSize
+			this->shader.SetFloat("pointSize", scale);
 			glBindVertexArray(this->VAO);
 			glDrawArrays(GL_POINTS, 0, 1);
 			glBindVertexArray(0);
-			
-		/*	glBegin(GL_LINE_STRIP);
-			glColor3ub(0, 0, 0);
-			glVertex2i(stars[i].x - stars[i].vx * 4, stars[i].y - stars[i].vy * 4);
-			glColor3ub(stars[i].r, stars[i].g, stars[i].b);
-			glVertex2i(stars[i].x, stars[i].y);
-			glEnd();*/
 		}
-		/*else {
-			particles[i].Position = position;
-			do {
-
-				float vx = (rand() % 2 ? 1 : -1) * (rand() / (float)RAND_MAX * 5);
-				float vy = (rand() % 2 ? 1 : -1) * (rand() / (float)RAND_MAX * 5);
-				glm::vec2 velocity = glm::vec2(vx, vy);
-				particles[i].Velocity = velocity;
-			} while (
-				(particles[i].Velocity.x*particles[i].Velocity.x + particles[i].Velocity.y*particles[i].Velocity.y) > 25);
-		}*/
 	}
-
-
-	//// Use additive blending to give it a 'glow' effect
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-	//this->shader.Use();
-	//for (ParticleFire particle : this->particles)
-	//{
-	//	if (particle.Life > 0.0f)
-	//	{
-	//		/*this->shader.SetFloat("scale", scale);
-	//		this->shader.SetVector2f("offset", particle.Position);
-	//		this->shader.SetVector4f("color", particle.Color);*/
-	//		glBindVertexArray(this->VAO);
-	//		glDrawArrays(GL_TRIANGLES, 0, 2);
-	//		glBindVertexArray(0);
-	//	}
-	//}
-	//// Don't forget to reset to default blending mode
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 bool FireworkGenerator::isDeadGenerator()
 {
-	return false;
+	for (ParticleFire particle : this->particles)
+	{
+		if (particle.Life > 0.0f)
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 void FireworkGenerator::init()
@@ -102,10 +85,17 @@ void FireworkGenerator::init()
 	//glm::vec3 color = generateColor();
 	for (unsigned int i = 0; i < this->amount; ++i) {
 		ParticleFire particle;
+		particle.Life = life;
 		//respawnParticle(particle, glm::vec2(0), color);
 		this->particles.push_back(particle);
 	}
-
+	
+	float redColor = rand() % 2;
+	float greenColor = rand() % 2;
+	float blueColor = rand() % 2;
+	if (!redColor && !greenColor && !blueColor) {
+		redColor = 1.0f;
+	}
 
 	for (unsigned int i = 0; i < this->amount; i++) {
 		particles[i].Position = position;
@@ -116,8 +106,8 @@ void FireworkGenerator::init()
 			glm::vec2 velocity = glm::vec2(vx, vy);
 			particles[i].Velocity = velocity;
 		} while (
-			(particles[i].Velocity.x*particles[i].Velocity.x + particles[i].Velocity.y*particles[i].Velocity.y) > 1);
+			(particles[i].Velocity.x*particles[i].Velocity.x + particles[i].Velocity.y*particles[i].Velocity.y) > (rand() % 2 + 1));// 1
 
-		particles[i].Color = glm::vec4((rand() % 101)/100, (rand() % 101) / 100, (rand() % 101) / 100,1.0f);
+		particles[i].Color = glm::vec4(redColor, greenColor, blueColor ,1.0f);
 	}
 }

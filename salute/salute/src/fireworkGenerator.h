@@ -26,7 +26,7 @@ public:
 	// Constructor
 	FireworkGenerator(Shader shader, unsigned int amount, glm::vec2 position, float scale = 5.0f, float life = 1.0f, bool repeat = true);
 	// Update all particles
-	void Update(float dt, unsigned int newParticles, glm::vec2 offset = glm::vec2(0.0f, 0.0f));
+	void Update(float dt);
 	// Render all particles
 	void Draw();
 	bool isDeadGenerator();

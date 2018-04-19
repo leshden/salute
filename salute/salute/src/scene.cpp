@@ -80,6 +80,10 @@ void Scene::Update(float dt)
 	for (ParticleGenerator* pg : _partVec) {
 		pg->Update(dt, 20, glm::vec2(10));
 	}
+
+	for (FireworkGenerator* fg : _fireVec) {
+		fg->Update(dt);
+	}
 }
 
 
@@ -92,11 +96,11 @@ void Scene::ProcessMouseButtonInput(double xpos, double ypos)
 {
 	std::cout << "xpos: " << xpos << std::endl;
 	std::cout << "ypos: " << ypos << std::endl; 
-	float scale = rand() % 5 + 1;
-	float life = rand() % 2 + 0.5f;
+	float scale = 2.0f + (float)(rand() % 6) / 10;// 2 - 2.5;
+	float life = 2.0f;//rand() % 2 + 0.5f;
 	//_partVec.push_back(new ParticleGenerator(*ResourceManager::GetShader("particle"), ResourceManager::GetTexture("circle"), 100, glm::vec2(xpos, ypos), scale, life, false));
 	
-	_fireVec.push_back(new FireworkGenerator(*ResourceManager::GetShader("line"), 300, glm::vec2(xpos, ypos), scale, life, false));
+	_fireVec.push_back(new FireworkGenerator(*ResourceManager::GetShader("line"), 400, glm::vec2(xpos, ypos), scale, life, false));
 	//_pVec.push_back(new SceneObject(glm::vec2(xpos, ypos), glm::vec2(100, 100), ResourceManager::GetTexture("face")));
 	//new SceneObject(glm::vec2(xpos, ypos), glm::vec2(100, 100), ResourceManager::GetTexture("face"));
 	//_partVec.push_back();
@@ -104,7 +108,7 @@ void Scene::ProcessMouseButtonInput(double xpos, double ypos)
 
 void Scene::Render()
 {
-	//background->draw();
+	background->draw();
 	//renderer->DrawSprite(ResourceManager::GetTexture("wall"), glm::vec2(200, 200), glm::vec2(300, 300));
 	//line->DrawLine(glm::vec2(200, 200), glm::vec2(50, 50));
 	//renderer3d->DrawSprite3D(ResourceManager::GetTexture("wall"), glm::vec2(200, 200), glm::vec2(300, 300));
@@ -145,6 +149,30 @@ void Scene::CheckOnDelete()
 
 		for (ParticleGenerator* pg : timeVecActive) {
 			_partVec.push_back(pg);
+		}
+	}
+}
+
+void Scene::CheckOnDeleteFirework() {
+	std::vector<FireworkGenerator*> timeVecActive;
+	std::vector<FireworkGenerator*> timeVecDisactive;
+	for (FireworkGenerator* fg : _fireVec) {
+		if (!fg->isDeadGenerator()) {
+			timeVecActive.push_back(fg);
+		}
+		else {
+			timeVecDisactive.push_back(fg);
+		}
+	}
+	if (!timeVecDisactive.empty()) {
+		for (FireworkGenerator* fg : timeVecDisactive) {
+			delete fg;
+		}
+
+		_fireVec.clear();
+
+		for (FireworkGenerator* fg : timeVecActive) {
+			_fireVec.push_back(fg);
 		}
 	}
 }
