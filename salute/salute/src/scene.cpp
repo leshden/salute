@@ -9,6 +9,7 @@
 #include <iostream>
 #include "lineRenderer.h"
 #include "fireworkGenerator.h"
+#include <GLFW/glfw3.h>
 
 Scene::Scene(unsigned int width, unsigned int height):
 width(width), 
@@ -52,24 +53,24 @@ void Scene::Init()
 
 	// Configure shaders
 	//glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), -1.0f, 1.0f);
-	/*glm::mat4 projection = glm::perspective(glm::radians(45.0f), static_cast<float>(width) / static_cast<float>(height), 0.1f, 100.0f);
+	glm::mat4 projection = glm::perspective(glm::radians(45.0f), static_cast<float>(width) / static_cast<float>(height), 0.1f, 100.0f);
 	ResourceManager::GetShader("sprite3d")->Use().SetInteger("image", 0);
-	ResourceManager::GetShader("sprite3d")->SetMatrix4("projection", projection);*/
+	ResourceManager::GetShader("sprite3d")->SetMatrix4("projection", projection);
 
-	glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), -1.0f, 1.0f);
-	ResourceManager::GetShader("sprite")->Use().SetInteger("image", 0);
-	ResourceManager::GetShader("sprite")->SetMatrix4("projection", projection);
-	ResourceManager::GetShader("particle")->Use();
-	ResourceManager::GetShader("particle")->SetMatrix4("projection", projection);
-	ResourceManager::GetShader("line")->Use();
-	ResourceManager::GetShader("line")->SetMatrix4("projection", projection);
-	
+	//glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), -1.0f, 1.0f);
+	//ResourceManager::GetShader("sprite")->Use().SetInteger("image", 0);
+	//ResourceManager::GetShader("sprite")->SetMatrix4("projection", projection);
+	//ResourceManager::GetShader("particle")->Use();
+	//ResourceManager::GetShader("particle")->SetMatrix4("projection", projection);
+	//ResourceManager::GetShader("line")->Use();
+	//ResourceManager::GetShader("line")->SetMatrix4("projection", projection);
+	//
 	// Set render-specific controls
-	renderer = new SpriteRenderer(*ResourceManager::GetShader("sprite"));
-	//renderer3d = new SpriteRenderer(*ResourceManager::GetShader("sprite3d"));
-	background = new Background();
+	//renderer = new SpriteRenderer(*ResourceManager::GetShader("sprite"));
+	renderer3d = new SpriteRenderer(*ResourceManager::GetShader("sprite3d"));
+	//background = new Background();
 
-	line = new LineRenderer(*ResourceManager::GetShader("line"));
+	//line = new LineRenderer(*ResourceManager::GetShader("line"));
 	//particles = new ParticleGenerator(*ResourceManager::GetShader("particle"), ResourceManager::GetTexture("sparkle"), 100, glm::vec2(400, 300));
 	//object = new SceneObject(glm::vec2(400, 300), glm::vec2(100, 100), ResourceManager::GetTexture("face"));
 }
@@ -77,19 +78,19 @@ void Scene::Init()
 void Scene::Update(float dt)
 {
 	//particles->Update(dt, *object, 20, glm::vec2(10));
-	for (ParticleGenerator* pg : _partVec) {
+	/*for (ParticleGenerator* pg : _partVec) {
 		pg->Update(dt, 20, glm::vec2(10));
 	}
 
 	for (FireworkGenerator* fg : _fireVec) {
 		fg->Update(dt);
-	}
+	}*/
 }
 
 
 void Scene::ProcessInput(float dt)
 {
-
+	
 }
 
 void Scene::ProcessMouseButtonInput(double xpos, double ypos)
@@ -100,28 +101,37 @@ void Scene::ProcessMouseButtonInput(double xpos, double ypos)
 	float life = 2.0f;//rand() % 2 + 0.5f;
 	//_partVec.push_back(new ParticleGenerator(*ResourceManager::GetShader("particle"), ResourceManager::GetTexture("circle"), 100, glm::vec2(xpos, ypos), scale, life, false));
 	
-	_fireVec.push_back(new FireworkGenerator(*ResourceManager::GetShader("line"), 400, glm::vec2(xpos, ypos), scale, life, false));
+	//_fireVec.push_back(new FireworkGenerator(*ResourceManager::GetShader("line"), 400, glm::vec2(xpos, ypos), scale, life, false));
 	//_pVec.push_back(new SceneObject(glm::vec2(xpos, ypos), glm::vec2(100, 100), ResourceManager::GetTexture("face")));
 	//new SceneObject(glm::vec2(xpos, ypos), glm::vec2(100, 100), ResourceManager::GetTexture("face"));
 	//_partVec.push_back();
 }
 
+void Scene::key_callback(int key, int action)
+{
+	if (key == GLFW_KEY_W && action == GLFW_PRESS) {
+		
+	}
+}
+
 void Scene::Render()
 {
-	background->draw();
+	//background->draw();
 	//renderer->DrawSprite(ResourceManager::GetTexture("wall"), glm::vec2(200, 200), glm::vec2(300, 300));
 	//line->DrawLine(glm::vec2(200, 200), glm::vec2(50, 50));
-	//renderer3d->DrawSprite3D(ResourceManager::GetTexture("wall"), glm::vec2(200, 200), glm::vec2(300, 300));
-	for (SceneObject* so : _pVec) {
-		so->Draw(*renderer);
-	}
-	/*for (ParticleGenerator* pg : _partVec) {
-		pg->Draw();
-	}*/
+	renderer3d->DrawSprite3D(ResourceManager::GetTexture("wall"), glm::vec2(200, 200), glm::vec2(300, 300));
+	
+	//for (SceneObject* so : _pVec) {
+	//	so->Draw(*renderer);
+	//}
 
-	for (FireworkGenerator* fg : _fireVec) {
-		fg->Draw();
-	}
+	//for (ParticleGenerator* pg : _partVec) {
+	//	pg->Draw();
+	//}
+
+	//for (FireworkGenerator* fg : _fireVec) {
+	//	fg->Draw();
+	//}
 
 
 	//object->Draw(*renderer);

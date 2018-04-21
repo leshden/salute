@@ -8,11 +8,13 @@
 #include "texture.h"
 #include "resourceManager.h"
 #include "scene.h"
+#include <list>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
-void processInput(GLFWwindow *window);
+//void processInput(GLFWwindow *window);
 
 Scene scene(SCR_WIDTH, SCR_HEIGHT);
 
@@ -39,6 +41,7 @@ int main()
 	glfwSetCursorPosCallback(window, cursor_position_callback);
 	//If you wish to be notified when a mouse button is pressed or released, set a mouse button callback.
 	glfwSetMouseButtonCallback(window, mouse_button_callback);
+	glfwSetKeyCallback(window, key_callback);
 
 	// glad: load all OpenGL function pointers
 	// ---------------------------------------
@@ -82,7 +85,7 @@ int main()
 
 		// input
 		// -----
-		processInput(window);
+		//processInput(window);
 
 		// render
 		// ------
@@ -111,11 +114,11 @@ int main()
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 // ---------------------------------------------------------------------------------------------------------
-void processInput(GLFWwindow *window)
-{
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
-}
+//void processInput(GLFWwindow *window)
+//{
+//	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+//		glfwSetWindowShouldClose(window, true);
+//}
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 // ---------------------------------------------------------------------------------------------
@@ -144,4 +147,12 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 		//std::cout << "xpos: " << xpos << std::endl;
 		//std::cout << "ypos: " << height - ypos << std::endl; 
 	}
+}
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
+{
+	// When a user presses the escape key, we set the WindowShouldClose property to true, closing the application
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, GL_TRUE);
+
+	scene.key_callback(key, action);
 }

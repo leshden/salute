@@ -20,12 +20,12 @@ public:
 
 	void ProcessInput(float dt);
 	void ProcessMouseButtonInput(double xpos, double ypos);
+	void key_callback(int key, int action);
 	void Update(float dt);
 	void Render();
 	void CheckOnDelete();
 	void CheckOnDeleteFirework();
 private :
-	bool keys[1024];
 	unsigned int  width;
 	unsigned int height;
 	LineRenderer* line;
