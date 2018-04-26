@@ -1,7 +1,6 @@
 #include "scene.h"
 #include "resourceManager.h"
 #include "spriteRenderer.h"
-#include <glm/gtc/matrix_transform.hpp>
 #include "texture.h"
 #include "background.h"
 #include "sceneObject.h"
@@ -21,6 +20,9 @@ background(nullptr),
 object(nullptr),
 particles(nullptr)
 {
+	cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+	cameraFront = glm::vec3(0.0f, 0.0f, -3.0f);
+	cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 	
 }
 
@@ -56,6 +58,10 @@ void Scene::Init()
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), static_cast<float>(width) / static_cast<float>(height), 0.1f, 100.0f);
 	ResourceManager::GetShader("sprite3d")->Use().SetInteger("image", 0);
 	ResourceManager::GetShader("sprite3d")->SetMatrix4("projection", projection);
+
+	//glm::mat4 view;
+	//view = glm::lookAt(cameraPos, cameraPos + glm::vec3(0.0, 0.0, -3.0), glm::vec3(0.0, 1.0, 0.0));
+	//ResourceManager::GetShader("sprite3d")->SetMatrix4("view", view);
 
 	//glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), -1.0f, 1.0f);
 	//ResourceManager::GetShader("sprite")->Use().SetInteger("image", 0);
@@ -109,13 +115,27 @@ void Scene::ProcessMouseButtonInput(double xpos, double ypos)
 
 void Scene::key_callback(int key, int action)
 {
-	if (key == GLFW_KEY_W && action == GLFW_PRESS) {
-		
+
+	float cameraSpeed = 0.05f;
+	std::cout << action << std::endl;
+    if (key == GLFW_KEY_W && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		cameraPos += cameraSpeed * cameraFront;
 	}
+	if (key == GLFW_KEY_S && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+		cameraPos -= cameraSpeed * cameraFront;
+	}
+	if (key == GLFW_KEY_A && (action == GLFW_PRESS || action == GLFW_REPEAT))
+		cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+	if (key == GLFW_KEY_D && (action == GLFW_PRESS || action == GLFW_REPEAT))
+		cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 }
 
 void Scene::Render()
 {
+	glm::mat4 view;
+	view = glm::lookAt(cameraPos, cameraPos + cameraFront, glm::vec3(0.0, 1.0, 0.0));
+	ResourceManager::GetShader("sprite3d")->SetMatrix4("view", view);
+
 	//background->draw();
 	//renderer->DrawSprite(ResourceManager::GetTexture("wall"), glm::vec2(200, 200), glm::vec2(300, 300));
 	//line->DrawLine(glm::vec2(200, 200), glm::vec2(50, 50));

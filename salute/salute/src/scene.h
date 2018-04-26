@@ -2,6 +2,7 @@
 #define SCENE_H
 
 #include<vector>
+#include <glm/gtc/matrix_transform.hpp>
 
 class SpriteRenderer;
 class Background;
@@ -10,6 +11,7 @@ class ParticleGenerator;
 class LineRenderer;
 class FireworkGenerator;
 
+class vec3;
 class Scene
 {
 public:
@@ -28,6 +30,9 @@ public:
 private :
 	unsigned int  width;
 	unsigned int height;
+	glm::vec3 cameraPos;
+	glm::vec3 cameraFront;
+	glm::vec3 cameraUp;
 	LineRenderer* line;
 	SpriteRenderer* renderer;
 	SpriteRenderer* renderer3d;

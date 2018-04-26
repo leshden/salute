@@ -48,13 +48,6 @@ void SpriteRenderer::DrawSprite3D(Texture2D &texture, glm::vec2 position, glm::v
 
 	this->shader.SetMatrix4("model", model);
 
-	glm::mat4 view;
-	// note that we're translating the scene in the reverse direction of where we want to move
-
-	view = glm::lookAt(glm::vec3(0.0, 0.0, 2.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
-	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -2.0f));
-	this->shader.SetMatrix4("view", view);
-
 	// Render textured quad
 	this->shader.SetVector3f("spriteColor", color);
 
